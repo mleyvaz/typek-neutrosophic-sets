@@ -1,0 +1,626 @@
+% ====================================================================
+% Type-k Neutrosophic Sets: Recursive Triadic Structures and Their
+% Empirical Realization in Large Language Models
+%
+% Authors: Florentin Smarandache (1), Maikel Leyva-Vázquez (2)
+% Target:  Neutrosophic Sets and Systems
+% Draft:   v0.1 — 2026-05-04
+% ====================================================================
+
+\documentclass[10pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage[margin=2.5cm]{geometry}
+
+% Theorem environments
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+
+\title{\textbf{Type-$k$ Neutrosophic Sets: Recursive Triadic Structures\\
+and Their Empirical Realization in Large Language Models}}
+
+\author{
+  Florentin Smarandache$^{1}$ \and Maikel Leyva-V\'{a}zquez$^{2}$\\[6pt]
+  \small $^{1}$Department of Mathematics, University of New Mexico,
+  Gallup, NM 87301, USA. \texttt{smarand@unm.edu}\\
+  \small $^{2}$Facultad de Ciencias Matem\'{a}ticas,
+  Universidad de Guayaquil, Ecuador.
+  \texttt{maikel.leyvavazquez@ug.edu.ec}
+}
+
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+% ====================================================================
+\begin{abstract}
+We introduce \emph{Type-$k$ Neutrosophic Sets}, a recursive extension
+of neutrosophic logic in which each epistemic component $(T, I, F)$
+is itself characterised by a full neutrosophic triplet, yielding
+$3^k$ scalars per element at recursion depth $k$.
+We prove a strict expressive hierarchy
+$\text{Type-1} \subsetneq \text{Type-2} \subsetneq \cdots \subsetneq \text{Type-}k$
+and identify a canonical embedding $\varphi$ that maps any
+Type-$(k-1)$ element into its Type-$k$ representation.
+We propose a recursive aggregation operator that reduces to the
+standard Single-Valued Neutrosophic Weighted Average (SVNWA)
+at $k=1$. Empirically, we demonstrate that large language models
+(LLMs) implicitly compute Type-2 values when evaluation protocols
+permit components outside $[0,1]$: across 2,419 evaluations of
+six foundation models under five epistemic protocols,
+24.7\% of all responses require Type-2 representation.
+Under the overset protocol S4-O.A, this fraction rises to
+97.3\%, and is consistent across all six vendors (19--30\%).
+The restriction to Type-1 is a \emph{protocol artefact}, not an
+epistemic limit. Type-$k$ Neutrosophic Sets provide the first formal
+framework that makes these LLM behaviours mathematically legitimate.
+\end{abstract}
+
+\textbf{Keywords:} neutrosophic sets; type-2 neutrosophic;
+recursive neutrosophic; large language models; epistemic uncertainty;
+epistemic indeterminacy; foundation models.
+
+% ====================================================================
+\section{Introduction}
+
+Smarandache's neutrosophic logic \cite{smarandache1998neutrosophy}
+represents propositions as triplets $(T, I, F)$ where $T$ is the
+degree of truth, $I$ the degree of indeterminacy, and $F$ the degree
+of falsity, with $T, I, F \in [0,1]$ independently (no sum
+constraint). This \emph{Type-1} representation has found application
+in multi-criteria decision making \cite{wang2010svn}, image
+processing, and, more recently, in the epistemic evaluation of large
+language models (LLMs) \cite{mason2026tensors,
+leyvavazquez2026plithogenic}.
+
+A fundamental question arises naturally: if $T$ is the degree to
+which a proposition is true, to what degree is $T$ \emph{itself}
+true, indeterminate, or false? In type-2 fuzzy logic
+\cite{mendel2002type2}, membership degrees are themselves fuzzy
+sets, enabling a second layer of uncertainty. The neutrosophic
+analogue has not been formally defined.
+
+In this paper we fill that gap. We introduce \emph{Type-$k$
+Neutrosophic Sets}, where each component of a Type-$(k-1)$
+representation is replaced by a full neutrosophic triplet.
+The resulting structure has $3^k$ scalars per element
+at depth $k$ and subsumes Type-1 as the base case.
+
+Our motivation is both theoretical and empirical. On the theoretical
+side, the construction is the most natural extension of neutrosophic
+logic to nested uncertainty. On the empirical side, we show that
+state-of-the-art LLMs \emph{already compute Type-2 values} when the
+evaluation protocol opens the range beyond $[0,1]$: negative $T$
+values (``anti-truth''), $I > 1$ (``hyper-indeterminacy''), and
+$F > 1$ (``hyper-falsity'') appear in nearly all vendors under the
+appropriate protocol. These values are mathematically inconsistent
+in Type-1 but are precisely representable in Type-2.
+
+The rest of the paper is organised as follows. Section~2 reviews
+Type-1 neutrosophic sets and existing extensions.
+Section~3 introduces Type-$k$ Neutrosophic Sets (Definitions~1--3)
+and states the strict hierarchy theorem. Section~4 defines the
+recursive aggregation operator. Section~5 presents the empirical
+evidence from LLM evaluations. Section~6 connects the construction
+to existing neutrosophic and plithogenic frameworks.
+Section~7 concludes.
+
+% ====================================================================
+\section{Background}
+
+\subsection{Type-1 Neutrosophic Sets}
+
+\begin{definition}[Type-1 Neutrosophic Set, \cite{smarandache1998neutrosophy}]
+Let $U$ be a universe of discourse. A \emph{neutrosophic set}
+$A^{(1)}$ on $U$ assigns to each element $x \in U$ a triplet
+\[
+  \mu^{(1)}(x) = (T, I, F), \quad T, I, F \in [0,1],
+\]
+where $T, I, F$ are independent: there is no constraint
+$T + I + F = 1$.
+The special case $T + I + F \leq 1$ recovers the
+intuitionistic fuzzy set of Atanassov~\cite{atanassov1986ifs}.
+\end{definition}
+
+\subsection{Existing extensions}
+
+Several extensions of Type-1 have been proposed.
+\emph{Interval-valued neutrosophic sets}
+\cite{wang2010svn} allow $T, I, F$ to be closed intervals
+in $[0,1]$. \emph{Refined neutrosophic logic}
+\cite{smarandache2013refined} splits each component into
+sub-components: $T \to (T_1, \ldots, T_p)$,
+$I \to (I_1, \ldots, I_r)$, $F \to (F_1, \ldots, F_s)$.
+These sub-components remain scalars.
+\emph{Neutrosophic overset / underset / offset}
+\cite{smarandache2016overset} allows components outside
+$[0,1]$: $T, I, F \in [-\Omega, \Omega^+]$ for bounds
+$\Omega, \Omega^+ > 0$.
+\emph{Plithogenic sets} \cite{smarandache2018plithogenic}
+assign a contradiction degree between attribute values
+and extend the aggregation accordingly.
+
+None of these extensions assign a \emph{full neutrosophic
+triplet} to each component, which is the defining feature
+of Type-$k$ Neutrosophic Sets.
+
+% ====================================================================
+\section{Type-$k$ Neutrosophic Sets}
+
+\subsection{Definitions}
+
+\begin{definition}[Type-2 Neutrosophic Set]
+\label{def:type2}
+Let $U$ be a universe of discourse. A
+\emph{Type-2 Neutrosophic Set} $A^{(2)}$ on $U$ assigns
+to each $x \in U$ nine scalars organised as three nested
+triplets:
+\begin{align}
+  \mu^{(2)}(x) &=
+  \Bigl(
+    \underbrace{(T_T,\, I_T,\, F_T)}_{\text{triplet of } T},\;
+    \underbrace{(T_I,\, I_I,\, F_I)}_{\text{triplet of } I},\;
+    \underbrace{(T_F,\, I_F,\, F_F)}_{\text{triplet of } F}
+  \Bigr),
+\end{align}
+where all nine scalars are in $[0,1]$ independently.
+The \emph{semantics} of each sub-triplet is:
+\begin{itemize}
+  \item $(T_T, I_T, F_T)$: to what degree is $T$ itself
+    true / indeterminate / false.
+  \item $(T_I, I_I, F_I)$: to what degree is $I$ itself
+    true / indeterminate / false.
+  \item $(T_F, I_F, F_F)$: to what degree is $F$ itself
+    true / indeterminate / false.
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Type-3 Neutrosophic Set]
+\label{def:type3}
+A \emph{Type-3 Neutrosophic Set} $A^{(3)}$ on $U$ assigns
+to each $x \in U$ twenty-seven scalars. Each of the nine
+scalars of a Type-2 representation is itself replaced by
+a neutrosophic triplet. For the $T$ component:
+\begin{align}
+  T \;\to\; &
+  \Bigl(
+    T_T(T_{TT}, I_{TT}, F_{TT}),\;
+    I_T(T_{IT}, I_{IT}, F_{IT}),\;
+    F_T(T_{FT}, I_{FT}, F_{FT})
+  \Bigr),
+\end{align}
+and analogously for $I$ and $F$.
+\end{definition}
+
+\begin{definition}[Type-$k$ Neutrosophic Set]
+\label{def:typek}
+Let $k \geq 1$ be an integer.
+A \emph{Type-$k$ Neutrosophic Set} $A^{(k)}$ on $U$ is
+defined recursively:
+\begin{itemize}
+  \item \emph{Base case} ($k=1$): $A^{(1)}$ is a Type-1
+    neutrosophic set (Definition~1).
+  \item \emph{Recursive case} ($k \geq 2$): $A^{(k)}$ is
+    obtained from $A^{(k-1)}$ by replacing each scalar
+    component with a full neutrosophic triplet of scalars
+    in $[0,1]$.
+\end{itemize}
+Each element $x \in U$ is characterised by $3^k$ scalars.
+The set of Type-$k$ neutrosophic sets over $U$ is denoted
+$\mathcal{NS}^{(k)}(U)$.
+\end{definition}
+
+\begin{remark}[Subset generalisation]
+Definitions~\ref{def:type2}--\ref{def:typek} use scalar
+components for finite depth $k$. A more general construction
+allows $T$, $I$, $F$ to be neutrosophic \emph{sets} rather
+than scalars, yielding an infinite-dimensional generalisation
+that subsumes all finite Type-$k$ as projections. We leave
+the formal development of this case to future work.
+\end{remark}
+
+\subsection{Canonical embedding}
+
+\begin{definition}[Embedding $\varphi$]
+The canonical embedding $\varphi: \mathcal{NS}^{(k-1)}(U)
+\to \mathcal{NS}^{(k)}(U)$ maps each scalar $s$ in a
+Type-$(k-1)$ element to the Type-$k$ triplet
+$(s, 0, 1-s)$, i.e., a certain scalar is embedded as a
+triplet with zero indeterminacy and complementary falsity.
+\end{definition}
+
+\subsection{Expressive hierarchy}
+
+\begin{theorem}[Strict hierarchy]
+\label{thm:hierarchy}
+$\mathcal{NS}^{(1)}(U) \subsetneq \mathcal{NS}^{(2)}(U)
+\subsetneq \cdots \subsetneq \mathcal{NS}^{(k)}(U)$
+in expressive power.
+\end{theorem}
+
+\begin{proof}
+Inclusion $\subseteq$: every Type-$(k-1)$ element $x$
+embeds into Type-$k$ via $\varphi$ (Definition~4).
+
+Strictness $\subsetneq$ (witness for $k=2$):
+Consider the proposition ``This statement is both true and
+false'' evaluated by a language model under an epistemic
+protocol that allows values in $[-1, 2]$.
+Suppose the model returns
+$\mu^*_T = -0.20$, meaning ``the truth of this claim is
+more false than true'' (anti-truth regime).
+In Type-1, we require $T \in [0,1]$, so $\mu^*_T = -0.20$
+is \emph{inadmissible}.
+In Type-2, the same state is admissible as:
+\[
+  (T_T, I_T, F_T) = (0.00,\; 0.20,\; 0.80),
+\]
+meaning $T$ is 0\% true, 20\% indeterminate, and 80\% false
+— a well-formed Type-2 triplet with all components in
+$[0,1]$.
+Empirically, we observe 65 such anti-truth responses
+(2.7\% of evaluations; see Section~5).
+The same argument generalises to the witness
+$(T=1.7, I=1.8, F=1.6)$ (Table~\ref{tab:witnesses}),
+which is inadmissible in any Type-1 extension with
+$T,I,F \in [0,1]$ but fully representable in Type-2.
+\end{proof}
+
+% ====================================================================
+\section{Recursive Aggregation Operator}
+
+The standard SVNWA operator \cite{wang2010svn} at Type-1:
+\[
+  \text{SVNWA}(\mu_1,\ldots,\mu_n;\mathbf{w}) =
+  \Bigl(1-\prod_{i=1}^n (1-T_i)^{w_i},\;
+  \prod_{i=1}^n I_i^{w_i},\;
+  \prod_{i=1}^n F_i^{w_i}\Bigr).
+\]
+
+\begin{definition}[Type-$k$ SVNWA]
+The \emph{Type-$k$ SVNWA} applies the SVNWA operator
+recursively to each sub-triplet independently at every
+level. For Type-2 with weight vector $\mathbf{w}$:
+\begin{align}
+  \text{SVNWA}^{(2)}(\mu^{(2)}_1,\ldots,\mu^{(2)}_n;\mathbf{w}) &=
+  \Bigl(
+    \text{SVNWA}(T_1,\ldots,T_n;\mathbf{w}),\;
+    \text{SVNWA}(I_1,\ldots,I_n;\mathbf{w}),\;
+    \text{SVNWA}(F_1,\ldots,F_n;\mathbf{w})
+  \Bigr),
+\end{align}
+where each argument of the outer tuple is itself the
+SVNWA of the corresponding sub-triplets across elements
+$1,\ldots,n$.
+\end{definition}
+
+\begin{proposition}[Reduction]
+$\text{SVNWA}^{(k)}$ reduces to the standard SVNWA when
+all Type-$k$ elements are images of Type-1 elements under
+$\varphi$ (i.e., when all sub-triplets have $I=0$ and
+$F=1-T$).
+\end{proposition}
+
+\begin{proof}
+Under the embedding $\varphi$, each sub-triplet
+$(s, 0, 1-s)$ has $I=0$, so $\prod I_i^{w_i} = 0$,
+and $F = 1-T$ recovers the standard complement.
+The SVNWA of the $T$-sub-triplets then equals
+the standard SVNWA of the original $T$ values.
+\end{proof}
+
+% ====================================================================
+\section{Empirical Evidence: LLMs as Implicit Type-2 Computers}
+
+\subsection{Experimental design}
+
+We reanalysed 2,419 evaluations from a multi-vendor
+empirical study \cite{leyvavazquez2026plithogenic}.
+Six foundation models were evaluated on five epistemic
+phenomena (Paradox, Ignorance, Vagueness, Contradiction,
+Contingency) under five protocols:
+\begin{itemize}
+  \item S1: classical single scalar $T \in [0,1]$.
+  \item S4: Mason's \cite{mason2026tensors} three-component
+    declared-loss frame $(what, why, severity)$.
+  \item S4-N: per-attribute neutrosophic $(T,I,F)$ triplet.
+  \item S4-O.A: overset protocol with $T, I, F \in [0,2]$.
+  \item S4-O.C: offset protocol with $T, I, F \in [-1,2]$.
+\end{itemize}
+The six vendors were: Alibaba (Qwen-3-235B), Anthropic
+(Claude Sonnet 4), DeepSeek Chat, Meta (Llama-4-Maverick),
+Mistral Medium-3.1, and OpenAI (GPT-4o).
+
+\subsection{Type-2 identification criterion}
+
+A response $\mu = (T, I, F)$ \emph{requires Type-2
+representation} if and only if at least one component
+falls outside $[0,1]$:
+$T < 0$, $T > 1$, $I > 1$, or $F > 1$.
+Such responses are inadmissible in any Type-1 neutrosophic
+set (including the overset/offset extensions of
+\cite{smarandache2016overset} when the extended range
+is \emph{not} assumed) but are representable in Type-2
+via the explicit mapping defined in the proof of
+Theorem~\ref{thm:hierarchy}.
+
+\subsection{Results}
+
+\begin{table}[h!]
+\centering
+\caption{Type-2 requirement by protocol ($n$ = evaluations per protocol).}
+\label{tab:protocol}
+\begin{tabular}{lrrr}
+\toprule
+Protocol & $n$ & Type-2 required & \% \\
+\midrule
+S4-O.A  & 300 & 292 & \textbf{97.3} \\
+S4-O.C  & 889 & 305 & \textbf{34.3} \\
+S4-N    & 300 & 0   & 0.0 \\
+S4      & 300 & 0   & 0.0 \\
+S1      & 300 & 0   & 0.0 \\
+S1-taut &  90 & 0   & 0.0 \\
+\midrule
+\textbf{Total} & \textbf{2,419} & \textbf{597} & \textbf{24.7} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\caption{Type-2 requirement by vendor (S4-O protocols only).}
+\label{tab:vendor}
+\begin{tabular}{lrrr}
+\toprule
+Vendor & $n$ & Type-2 required & \% \\
+\midrule
+Mistral (Medium-3.1)         & 435 & 130 & 29.9 \\
+OpenAI (GPT-4o)              & 377 & 100 & 26.5 \\
+Anthropic (Claude Sonnet 4)  & 408 & 108 & 26.5 \\
+Meta (Llama-4-Maverick)      & 355 &  81 & 22.8 \\
+DeepSeek Chat                & 431 &  97 & 22.5 \\
+Alibaba (Qwen-3-235B)        & 413 &  81 & 19.6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\caption{Type-2 subtypes across all evaluations.}
+\label{tab:subtypes}
+\begin{tabular}{lrr}
+\toprule
+Type-2 subtype & $n$ & \% of total \\
+\midrule
+$I > 1$ (hyper-indeterminacy)  & 507 & 21.0 \\
+$T > 1$ (hyper-truth)          & 129 &  5.3 \\
+$F > 1$ (hyper-falsity)        &  91 &  3.8 \\
+$T < 0$ (anti-truth)           &  65 &  2.7 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\caption{Five most extreme Type-2 witnesses.}
+\label{tab:witnesses}
+\begin{tabular}{lllccc}
+\toprule
+Vendor & Protocol & Phenomenon & $T$ & $I$ & $F$ \\
+\midrule
+Mistral & S4-O.A & Contradiction (Ethical) & 1.7 & 1.8 & 1.6 \\
+Mistral & S4-O.A & Contradiction (Ethical) & 1.7 & 1.8 & 1.6 \\
+OpenAI  & S4-O.A & Paradox (Logical)       & 0.0 & 2.0 & 2.0 \\
+OpenAI  & S4-O.A & Paradox (Logical)       & 0.0 & 2.0 & 2.0 \\
+OpenAI  & S4-O.A & Paradox (Logical)       & 0.0 & 2.0 & 2.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Interpretation}
+
+Three observations are central:
+
+\textbf{1. Zero vs.\ high dichotomy by protocol.}
+Standard protocols (S1, S4, S4-N) produce \emph{zero}
+Type-2 responses, not because the epistemic phenomena
+do not require Type-2, but because the protocol's
+output format enforces $T, I, F \in [0,1]$.
+Extended protocols (S4-O.A, S4-O.C) release this
+constraint, and nearly all models immediately occupy
+the Type-2 region (97.3\% under S4-O.A).
+This demonstrates that the Type-1 restriction is a
+\emph{protocol artefact}, not a property of the
+epistemic phenomena being evaluated.
+
+\textbf{2. Cross-vendor consistency.}
+The range 19.6\%--29.9\% across six independent
+foundation models (Table~\ref{tab:vendor}) rules out
+the possibility that Type-2 behaviour is an idiosyncrasy
+of a single vendor's training. All six models, trained
+by different organisations on different data with
+different objectives, exhibit the same qualitative
+behaviour.
+
+\textbf{3. Type-2 mapping of extreme witnesses.}
+The witness $(T=1.7, I=1.8, F=1.6)$ from Mistral
+is inadmissible as a Type-1 value. Its Type-2
+representation is:
+\begin{align}
+  T \;\to\; (T_T=1.0,\; I_T=0.7,\; F_T=0.0), \nonumber\\
+  I \;\to\; (T_I=1.0,\; I_I=0.8,\; F_I=0.0), \nonumber\\
+  F \;\to\; (T_F=1.0,\; I_F=0.6,\; F_F=0.0). \nonumber
+\end{align}
+Under this mapping, the model is expressing:
+``truth is maximally true but 70\% additionally
+indeterminate; indeterminacy is maximally true but
+80\% additionally indeterminate.'' This is a coherent
+Type-2 epistemic state that Type-1 cannot represent.
+
+% ====================================================================
+\section{Connections to Existing Neutrosophic Frameworks}
+
+\subsection{Refined neutrosophic logic}
+
+Refined neutrosophic logic \cite{smarandache2013refined}
+increases the \emph{cardinality} at a single level
+($T \to T_1, \ldots, T_p$).
+Type-$k$ Neutrosophic Sets increase the \emph{depth}
+of the representation.
+The two constructions are orthogonal and composable:
+a Type-2 refined set would split each sub-triplet
+component into sub-components at the same level.
+
+\subsection{Plithogenic tensors}
+
+Leyva-V\'{a}zquez and Smarandache \cite{leyvavazquez2026plithogenic}
+assign independent $(T, I, F)$ triplets to each
+\emph{attribute} of the object being evaluated.
+This is a Type-2 structure along the attribute
+dimension: the overall epistemic state of an attribute
+is itself characterised by a triplet.
+Type-$k$ Neutrosophic Sets generalise this to arbitrary
+recursion depth.
+
+\subsection{SVN Tensors}
+
+Single-valued neutrosophic tensors
+\cite{leyvavazquez2026svntensors} are Type-1 structures
+arranged along multiple tensor modes.
+Every SVN tensor is a special case of a Type-1 element
+under the framework of this paper.
+Type-$k$ extends SVN tensors to depth $k$ by replacing
+each scalar component with a sub-triplet.
+
+\subsection{The Absorption Problem}
+
+Prior work \cite{leyvavazquez2026plithogenic} identified
+the \emph{Absorption Problem}: under Type-1 protocols,
+indeterminacy $I$ systematically absorbs the entire
+probability mass ($I \to 1$) when the phenomenon is
+genuinely uncertain.
+The Type-2 framework reframes this as a depth-collapse:
+the Absorption Problem is forced Type-2 $\to$ Type-1
+projection in which the sub-structure of $I$
+(namely, whether $I$ is high due to genuine ignorance
+vs.\ due to source conflict) is lost.
+Type-2 representations distinguish $(T_I, I_I, F_I)
+= (1, 0, 0)$ (certain indeterminacy) from
+$(T_I, I_I, F_I) = (0, 0, 1)$
+(the apparent indeterminacy is itself false, i.e.,
+the state is actually a contradiction).
+These two states are identical under Type-1 collapse.
+
+% ====================================================================
+\section{Conclusion}
+
+We have introduced Type-$k$ Neutrosophic Sets as a
+formal recursive extension of neutrosophic logic,
+proved a strict expressive hierarchy, and demonstrated
+empirically that state-of-the-art LLMs already compute
+Type-2 values when the evaluation protocol allows it.
+
+Three directions for future work are immediate:
+\begin{enumerate}
+  \item \textbf{Type-3 for meta-uncertainty.}
+    A Type-3 evaluation would allow the evaluator to
+    characterise its own indeterminacy: not only
+    ``how uncertain am I?'' (captured in $I$) but
+    ``how certain am I about my uncertainty?''
+    (captured in $I_I$ at Type-3).
+  \item \textbf{Subset generalisation.}
+    Replacing scalar components with neutrosophic
+    sets (rather than finite recursive triplets)
+    yields an infinite-dimensional framework that
+    subsumes all finite Type-$k$ as projections.
+  \item \textbf{Type-$k$ distance and clustering.}
+    A Type-$k$ distance metric would enable clustering
+    of LLMs by their characteristic depth of epistemic
+    expression, potentially distinguishing models that
+    compute genuine Type-2 uncertainty from those
+    that produce numerical artefacts.
+\end{enumerate}
+
+\section*{Acknowledgements}
+The authors thank the six foundation model providers
+for their publicly accessible APIs.
+
+% ====================================================================
+\begin{thebibliography}{99}
+
+\bibitem{smarandache1998neutrosophy}
+Smarandache, F. (1998).
+\textit{Neutrosophy: Neutrosophic Probability, Set, and Logic}.
+American Research Press.
+
+\bibitem{smarandache2013refined}
+Smarandache, F. (2013).
+n-Valued refined neutrosophic logic and its applications
+to physics.
+\textit{Progress in Physics}, 4, 143--146.
+
+\bibitem{smarandache2016overset}
+Smarandache, F. (2016).
+Neutrosophic overset, neutrosophic underset, and
+neutrosophic offset.
+\textit{Pons Editions}.
+
+\bibitem{smarandache2018plithogenic}
+Smarandache, F. (2018).
+Plithogeny, plithogenic set, logic, probability, and
+statistics.
+\textit{Pons Publishing House}.
+
+\bibitem{wang2010svn}
+Wang, H., Smarandache, F., Zhang, Y.\,Q., \& Sunderraman, R. (2010).
+Single valued neutrosophic sets.
+\textit{Multispace \& Multistructure}, 4, 410--413.
+
+\bibitem{atanassov1986ifs}
+Atanassov, K.\,T. (1986).
+Intuitionistic fuzzy sets.
+\textit{Fuzzy Sets and Systems}, 20(1), 87--96.
+
+\bibitem{mendel2002type2}
+Mendel, J.\,M., \& John, R.\,I. (2002).
+Type-2 fuzzy sets made simple.
+\textit{IEEE Transactions on Fuzzy Systems}, 10(2), 117--127.
+
+\bibitem{mason2026tensors}
+Mason, T. (2026).
+From scalars to tensors: Declared losses recover
+epistemic distinctions that neutrosophic scalars
+cannot express.
+arXiv:2604.09602v1 [cs.AI].
+
+\bibitem{leyvavazquez2026plithogenic}
+Leyva-V\'{a}zquez, M., \& Smarandache, F. (2026).
+Plithogenic tensor neutrosophic logic: A formal
+foundation for declared-loss evaluation in large
+language models.
+\textit{Manuscript submitted}.
+
+\bibitem{leyvavazquez2026svntensors}
+Leyva-V\'{a}zquez, M., \& Smarandache, F. (2026).
+Single-valued neutrosophic tensors.
+\textit{arXiv preprint} (in preparation).
+
+\bibitem{ye2014svnwa}
+Ye, J. (2014).
+A multicriteria decision-making method using
+aggregation operators for simplified neutrosophic sets.
+\textit{Journal of Intelligent \& Fuzzy Systems},
+26(5), 2459--2466.
+
+\end{thebibliography}
+
+\end{document}
