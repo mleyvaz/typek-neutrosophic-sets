@@ -28,12 +28,14 @@
 and Their Empirical Realization in Large Language Models}}
 
 \author{
-  Florentin Smarandache$^{1}$ \and Maikel Leyva-V\'{a}zquez$^{2}$\\[6pt]
+  Florentin Smarandache$^{1}$ \and Maikel Leyva-V\'{a}zquez$^{2,3,4}$\\[6pt]
   \small $^{1}$Department of Mathematics, University of New Mexico,
   Gallup, NM 87301, USA. \texttt{smarand@unm.edu}\\
-  \small $^{2}$Facultad de Ciencias Matem\'{a}ticas,
-  Universidad de Guayaquil, Ecuador.
-  \texttt{maikel.leyvavazquez@ug.edu.ec}
+  \small $^{2}$Facultad de Ciencias Matem\'{a}ticas y F\'{i}sicas,
+  Universidad de Guayaquil, Guayaquil, Ecuador.\\
+  \small $^{3}$Universidad Bolivariana del Ecuador, Duran, Ecuador.\\
+  \small $^{4}$Ohigins, Santiago, Chile.\\
+  \small \texttt{maikel.leyvavazquez@ug.edu.ec}
 }
 
 \date{May 2026}
@@ -219,6 +221,20 @@ The set of Type-$k$ neutrosophic sets over $U$ is denoted
 $\mathcal{NS}^{(k)}(U)$.
 \end{definition}
 
+% ── FIGURE 1 ──────────────────────────────────────────────────
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{figures/fig1_type_k_hierarchy.png}
+\caption{\textbf{Figure 1.} The Type-$k$ neutrosophic hierarchy.
+\textbf{Left (Type-1):} three independent scalars $(T,I,F)$.
+\textbf{Centre (Type-2):} each component is itself a neutrosophic
+triplet, yielding 9 scalars.
+\textbf{Right (Type-3):} each sub-component is recursively a
+triplet, yielding 27 scalars.
+At depth $k$, an element requires $3^k$ scalars.}
+\label{fig:hierarchy}
+\end{figure}
+
 \begin{remark}[Subset generalisation]
 Definitions~\ref{def:type2}--\ref{def:typek} use scalar
 components for finite depth $k$. A more general construction
@@ -340,6 +356,20 @@ The six vendors were: Alibaba (Qwen-3-235B), Anthropic
 (Claude Sonnet 4), DeepSeek Chat, Meta (Llama-4-Maverick),
 Mistral Medium-3.1, and OpenAI (GPT-4o).
 
+% ── FIGURE 2 (placed before results) ──────────────────────────
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/fig2_type2_by_protocol.png}
+\caption{\textbf{Figure 2.} Percentage of responses requiring Type-2
+representation by protocol. Standard protocols (S1, S4, S4-N) enforce
+$T,I,F \in [0,1]$ and produce 0\% Type-2 responses. Extended protocols
+(S4-O.A, S4-O.C) release this constraint; 97.3\% and 38.1\% of
+responses, respectively, immediately occupy the Type-2 region. The
+dichotomy demonstrates that the Type-1 restriction is a protocol
+artefact, not an epistemic limit.}
+\label{fig:by_protocol}
+\end{figure}
+
 \subsection{Type-2 identification criterion}
 
 A response $\mu = (T, I, F)$ \emph{requires Type-2
@@ -426,7 +456,82 @@ OpenAI  & S4-O.A & Paradox (Logical)       & 0.0 & 2.0 & 2.0 \\
 \end{tabular}
 \end{table}
 
+% ── FIGURE 3 ──────────────────────────────────────────────────
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/fig3_type2_by_vendor.png}
+\caption{\textbf{Figure 3.} Cross-vendor consistency (S4-O protocols).
+All six independent foundation models exhibit Type-2 behaviour
+(range 19.6\%--29.9\%). The narrow inter-vendor spread rules out
+a single-model idiosyncrasy and suggests a systematic property
+of the epistemic phenomena under evaluation.}
+\label{fig:by_vendor}
+\end{figure}
+
+% ── FIGURE 4 ──────────────────────────────────────────────────
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/fig4_scatter_3d.png}
+\caption{\textbf{Figure 4.} LLM responses in the $T \times I \times F$
+space under S4-O protocols. The wireframe marks the Type-1 unit cube
+$[0,1]^3$. Red points (require Type-2) lie outside the cube.
+The star marks the most extreme witness
+$(T{=}1.7,\;I{=}1.8,\;F{=}1.6)$ from Mistral.}
+\label{fig:scatter3d}
+\end{figure}
+
 \subsection{Interpretation}
+
+% ── FIGURE 5 + EXAMPLE ───────────────────────────────────────
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{figures/fig5_witness_type2_mapping.png}
+\caption{\textbf{Figure 5.} Worked example: the Mistral witness
+$(T{=}1.7,\;I{=}1.8,\;F{=}1.6)$ evaluated on the statement
+\emph{``Lying to save an innocent life is morally right and wrong
+at the same time''} under protocol S4-O.A.
+\textbf{Left:} Type-1 representation is inadmissible --- all three
+values exceed 1.0.
+\textbf{Right:} Type-2 representation is valid --- each component
+is mapped to a sub-triplet with all values in $[0,1]$.}
+\label{fig:witness_mapping}
+\end{figure}
+
+\begin{example}[Type-2 mapping of the Mistral witness]
+\label{ex:mistral}
+\emph{Statement:} ``Lying to save an innocent life is morally right
+and wrong at the same time.''\\
+\emph{Model:} Mistral Medium-3.1.\\
+\emph{Protocol:} S4-O.A (overset, range $[0,2]$).\\
+\emph{Response:} $(T{=}1.7,\;I{=}1.8,\;F{=}1.6)$.
+
+\medskip
+\textbf{Type-1 verdict:} inadmissible. All three values exceed 1.0;
+the response cannot be represented in any Type-1 neutrosophic set,
+including overset/offset extensions that operate within a fixed
+bounded range.
+
+\medskip
+\textbf{Type-2 mapping} (using $v \mapsto (\min(v,1),\;
+\max(v-1,0),\; 0)$ for $v > 1$):
+\begin{align*}
+T = 1.7 \;\to\; &(T_T{=}1.0,\; I_T{=}0.7,\; F_T{=}0.0)\\
+  &\text{\small truth is maximal, but carries 70\% hyper-indeterminacy}\\[4pt]
+I = 1.8 \;\to\; &(T_I{=}1.0,\; I_I{=}0.8,\; F_I{=}0.0)\\
+  &\text{\small indeterminacy is maximal, and itself 80\% uncertain}\\[4pt]
+F = 1.6 \;\to\; &(T_F{=}1.0,\; I_F{=}0.6,\; F_F{=}0.0)\\
+  &\text{\small falsity is maximal, and itself 60\% uncertain}
+\end{align*}
+
+\textbf{Interpretation:} Mistral simultaneously affirms truth,
+indeterminacy, and falsity at maximum strength, while expressing
+additional meta-uncertainty about each component.
+This is the epistemic signature of a genuine ethical paradox:
+both the moral obligation to save a life and the moral prohibition
+on lying activate fully, without resolution.
+In Type-1, this state is inexpressible; in Type-2, it is a
+well-formed element of $\mathcal{NS}^{(2)}(U)$.
+\end{example}
 
 Three observations are central:
 
@@ -622,5 +727,52 @@ aggregation operators for simplified neutrosophic sets.
 26(5), 2459--2466.
 
 \end{thebibliography}
+
+% ================================================================
+\appendix
+\section{Type-2 Explicit Evaluation Prompt (Protocol S-T2)}
+\label{app:prompt_type2}
+
+The following prompt asks LLMs to report Type-2 values directly.
+It is proposed for the follow-up empirical study.
+
+\medskip
+\noindent\textbf{System (S-T2):}
+\begin{verbatim}
+You are an expert in Type-2 Neutrosophic Logic. You evaluate
+statements using a RECURSIVE triadic structure. For each
+component (T, I, F), provide its own sub-triplet all in [0,1]:
+  T: (T_T, I_T, F_T)  -- how true/indeterminate/false is T
+  I: (T_I, I_I, F_I)  -- how true/indeterminate/false is I
+  F: (T_F, I_F, F_F)  -- how true/indeterminate/false is F
+This captures meta-uncertainty: not just how uncertain you are,
+but how certain you are ABOUT your uncertainty.
+Respond with ONLY a JSON object, no other text.
+\end{verbatim}
+
+\noindent\textbf{User (S-T2):}
+\begin{verbatim}
+Apply Type-2 neutrosophic evaluation to:
+
+Statement: "{stmt}"
+
+Provide nine values in [0.0, 1.0]:
+
+Respond with ONLY:
+{"T": {"T_T": v, "I_T": v, "F_T": v},
+ "I": {"T_I": v, "I_I": v, "F_I": v},
+ "F": {"T_F": v, "I_F": v, "F_F": v}}
+\end{verbatim}
+
+\noindent\textbf{Expected output for Example~1 (Mistral witness):}
+\begin{verbatim}
+{"T": {"T_T": 0.95, "I_T": 0.70, "F_T": 0.05},
+ "I": {"T_I": 0.90, "I_I": 0.75, "F_I": 0.05},
+ "F": {"T_F": 0.85, "I_F": 0.60, "F_F": 0.05}}
+\end{verbatim}
+
+\noindent This prompt has not been run at scale. Running it on
+5 phenomena $\times$ 6 vendors $\times$ 10 repetitions constitutes
+the Type-2 direct empirical study proposed as primary follow-up.
 
 \end{document}
