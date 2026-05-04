@@ -96,8 +96,10 @@ p_aff.paragraph_format.space_after = Pt(14)
 r3 = p_aff.add_run(
     "¹ Department of Mathematics, University of New Mexico, "
     "Gallup, NM 87301, USA. smarand@unm.edu\n"
-    "² Facultad de Ciencias Matemáticas, Universidad de Guayaquil, "
-    "Ecuador. maikel.leyvavazquez@ug.edu.ec"
+    "² Facultad de Ciencias Matemáticas y Físicas, Universidad de Guayaquil, Ecuador.\n"
+    "³ Universidad Bolivariana del Ecuador, Durán, Ecuador.\n"
+    "⁴ Universidad Bernardo O'Higgins, Santiago, Chile.\n"
+    "maikel.leyvavazquez@ug.edu.ec"
 )
 r3.font.size = Pt(9)
 r3.italic = True
