@@ -1,0 +1,152 @@
+To: smarand@unm.edu
+Subject: Type-k Neutrosophic Sets — complete draft ready for your review
+
+Dear Florentin,
+
+The complete draft is attached (Word and PDF, 10 pages).
+Here is a summary of what is in it and why I think it is ready
+for your review.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+YOUR IDEA IS THE CENTRAL CONTRIBUTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your formulation — "we may set a triplet T, I, F for each type of
+uncertainty, contradiction, indeterminacy, etc." — is the paper.
+I have formalised it as:
+
+  Definition 2 (Type-2): each of T, I, F is itself a neutrosophic
+  triplet, yielding 9 scalars per element.
+
+  Definition 3 (Type-3): recursion to depth 3, yielding 27 scalars.
+
+  Definition 4 (Type-k): general recursive construction, 3^k scalars.
+
+  Theorem 1: strict hierarchy NS^(1) ⊊ NS^(2) ⊊ ... ⊊ NS^(k).
+
+Please review and expand these definitions as you see fit.
+The naming and theoretical architecture are entirely yours.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+THE EMPIRICAL DATA WAS ALREADY THERE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+I reanalysed 2,419 evaluations from our Paper 1.
+When I asked six foundation models to evaluate epistemic
+statements using extended protocols (T, I, F outside [0,1]):
+
+  S4-O.A (overset [0,2]):   97.3% of responses require Type-2
+  S4-O.C (offset [-1,2]):   38.1% of responses require Type-2
+  S1 / S4 / S4-N (standard): 0.0% — the protocol prevents it
+
+This pattern holds across all 6 vendors (19% to 30% each),
+ruling out any single-model artefact.
+
+The most extreme witness: Mistral evaluated
+"Lying to save an innocent life is morally right and wrong
+at the same time" and returned (T=1.7, I=1.8, F=1.6).
+This is inadmissible in Type-1 but valid in Type-2:
+
+  T → (T_T=1.0, I_T=0.7, F_T=0.0)
+  I → (T_I=1.0, I_I=0.8, F_I=0.0)
+  F → (T_F=1.0, I_F=0.6, F_F=0.0)
+
+The models were computing Type-2 values all along.
+Your construction gives them the formal right to do so.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+YOUR SECOND IDEA — T, I, F AS SUBSETS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+I have also included your suggestion that T, I, F can be
+neutrosophic SETS rather than simple numbers, as Definition 5
+(Subset-valued Neutrosophic Set) with a Corollary stating the
+full hierarchy:
+
+  NS^(1) ⊊ NS^(2) ⊊ ... ⊊ NS^(k) ⊊ ... ⊊ NS^(subset)
+
+The subset construction is the most general: it allows not only
+HOW MUCH truth is present but WHAT KIND of truth, admitting
+interpretive variation across contexts, cultures, or epistemic
+communities. Every finite Type-k is a special case.
+
+Please review Definition 5 and the Corollary — this is entirely
+your idea and you should shape it as you see fit.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AN IMPORTANT LIMITATION — AND WHY IT STRENGTHENS THE PAPER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+You may ask — rightly — why Type-k is only detected when values
+escape [0,1]. The answer is that our criterion identifies a
+necessary condition, not a sufficient one. A model returning
+T=0.7 under a standard protocol may carry internal Type-2
+structure (e.g., "I am only 50% sure about my 70% assessment")
+that the protocol destroys before it reaches the output.
+
+The 24.7% figure is therefore a lower bound on Type-2 usefulness.
+The protocol that would reveal Type-2 even within [0,1] is
+Protocol S-T2 (Appendix B of the paper): it asks the model
+directly for the nine sub-components. I have not run it at scale
+yet — that is the proposed follow-up experiment.
+
+I have included this limitation explicitly in the paper
+(Section 7, before the conclusions). A reviewer would raise it;
+better that we raise it first, with the solution already in hand.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT THE DRAFT CONTAINS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Section 3 — Type-k definitions + hierarchy theorem + embedding
+  Section 4 — Recursive SVNWA aggregation operator
+  Section 5 — Empirical evidence: 4 tables + 5 figures
+  Section 6 — Connections to Refined NS, Plithogenic Tensors,
+               SVN Tensors, and the Absorption Problem reframed
+               as Type-2 → Type-1 forced collapse
+  Section 7 — Conclusion + limitation + 3 future directions
+  Appendix A — All stimuli + tautology controls
+  Appendix B — All 5 prompt templates verbatim + Protocol S-T2
+  Appendix C — Prompt ablation results (addresses Mason's critique)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DATA, CODE AND DRAFT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Everything is publicly available and reproducible:
+
+  Paper (LaTeX + PDF + Word):
+  https://github.com/mleyvaz/typek-neutrosophic-sets
+
+  Data (2,419 evaluations) and experiment code:
+  https://github.com/mleyvaz/typek-neutrosophic-sets/tree/main/data
+  https://github.com/mleyvaz/typek-neutrosophic-sets/tree/main/experiments
+
+  Running experiments/type2_evidence.py reproduces all tables
+  in under 5 seconds with no API cost.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A SUGGESTION ON PREPRINT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Once you are satisfied with the draft, it may be worth submitting
+a preprint to arXiv before the formal NSS submission. This would:
+  (1) establish the priority date for your construction
+  (2) give the paper a citable identifier immediately
+  (3) allow our other papers (Plithogenic Tensor, SVN Tensors)
+      to cite it with a stable arXiv reference
+
+This is only a suggestion. The decision — on timeline, venue,
+and whether to preprint — is entirely yours.
+
+You are the first author. Please revise, name, and shape this
+paper however you see fit. I am ready with any changes on request.
+
+With warm regards and gratitude,
+Maikel
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Dr. Maikel Yelandi Leyva-Vázquez
+Universidad de Guayaquil · Universidad Bolivariana del Ecuador
+Universidad Bernardo O'Higgins, Santiago, Chile
+ORCID: 0000-0001-7911-5879

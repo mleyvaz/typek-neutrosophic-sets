@@ -235,13 +235,44 @@ At depth $k$, an element requires $3^k$ scalars.}
 \label{fig:hierarchy}
 \end{figure}
 
-\begin{remark}[Subset generalisation]
-Definitions~\ref{def:type2}--\ref{def:typek} use scalar
-components for finite depth $k$. A more general construction
-allows $T$, $I$, $F$ to be neutrosophic \emph{sets} rather
-than scalars, yielding an infinite-dimensional generalisation
-that subsumes all finite Type-$k$ as projections. We leave
-the formal development of this case to future work.
+\begin{definition}[Subset-valued Neutrosophic Set]
+\label{def:subset}
+In the most general construction, proposed by
+Smarandache (personal communication, 2026-05-04),
+the components $T$, $I$, $F$ of a neutrosophic element
+are not scalars or finite recursive triplets but
+\emph{neutrosophic sets} over a sub-universe $U'$:
+\[
+  T,\;I,\;F \;\in\; \mathcal{NS}^{(1)}(U').
+\]
+This admits variations in what each epistemic category
+\emph{means}: different sub-elements of $U'$ can
+represent different modes of truth, indeterminacy,
+or falsity, with their own internal neutrosophic structure.
+Every finite Type-$k$ set is a special case obtained
+by taking $U'$ to be a finite set of cardinality $3^{k-1}$
+and fixing the neutrosophic memberships of its elements.
+\end{definition}
+
+\begin{corollary}[Ultimate hierarchy]
+\label{cor:ultimate}
+The chain
+$\mathcal{NS}^{(1)} \subsetneq \mathcal{NS}^{(2)} \subsetneq
+\cdots \subsetneq \mathcal{NS}^{(k)} \subsetneq \cdots
+\subsetneq \mathcal{NS}^{(\mathrm{subset})}$
+is strict at every level, where $\mathcal{NS}^{(\mathrm{subset})}$
+denotes the class of subset-valued neutrosophic sets.
+\end{corollary}
+
+\begin{remark}
+The subset-valued construction (Definition~\ref{def:subset})
+is the most expressive framework: it allows not only
+\emph{how much} truth is present but also \emph{what kind}
+of truth, leaving room for interpretive variation across
+contexts, cultures, or epistemic communities.
+The formal development of aggregation, distance, and
+decision operators under Definition~\ref{def:subset}
+is left to future work.
 \end{remark}
 
 \subsection{Canonical embedding}
