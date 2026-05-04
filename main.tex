@@ -634,6 +634,32 @@ proved a strict expressive hierarchy, and demonstrated
 empirically that state-of-the-art LLMs already compute
 Type-2 values when the evaluation protocol allows it.
 
+\subsection*{Limitation: Type-2 is detected only at the boundary}
+
+The empirical criterion used in Section~5 --- a response requires
+Type-2 if any component falls outside $[0,1]$ --- identifies a
+\emph{necessary} condition, not a sufficient one.
+A response with all components in $[0,1]$ is not thereby
+a Type-1 response: it may be a Type-2 state whose sub-structure
+is hidden because the protocol forces $T,I,F \in [0,1]$ and the
+model cannot express the meta-uncertainty it carries.
+
+Consider the same ethical statement evaluated under S1.
+A model that returns $T = 0.7$ may internally distinguish
+between $(T_T{=}0.9,\;I_T{=}0.1,\;F_T{=}0.0)$
+--- ``I am highly confident about my 70\% truth assessment'' ---
+and $(T_T{=}0.5,\;I_T{=}0.5,\;F_T{=}0.2)$
+--- ``I am deeply uncertain about my own 70\%''.
+Both states collapse to $T = 0.7$ under any Type-1 protocol.
+The information is destroyed before it reaches the output.
+
+The current results therefore measure a \emph{lower bound}
+on Type-2 usefulness: 24.7\% of responses \emph{require} it.
+The fraction that would \emph{benefit} from it --- even within
+$[0,1]$ --- is unknown and likely higher.
+Protocol S-T2 (Appendix~B), which explicitly requests the
+nine-component output, is the experiment needed to close this gap.
+
 Three directions for future work are immediate:
 \begin{enumerate}
   \item \textbf{Type-3 for meta-uncertainty.}
